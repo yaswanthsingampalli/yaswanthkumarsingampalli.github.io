@@ -45,7 +45,7 @@ function App() {
   };
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen">
+    <div className="bg-cream dark:bg-ink text-ink dark:text-cream font-sans min-h-screen">
       <ScrollProgress />
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <AnimatePresence mode="wait">
