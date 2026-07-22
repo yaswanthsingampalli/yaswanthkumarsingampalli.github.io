@@ -8,6 +8,7 @@ import { inSphere } from 'maath/random/dist/maath-random.esm';
 // 3D Particle Background Component
 function ParticleBackground() {
   const pointsRef = useRef();
+  const groupRef = useRef();
   // Generate the sphere positions array directly
   const spherePositions = inSphere(new Float32Array(5000 * 3), { radius: 1.5 });
 
@@ -16,10 +17,17 @@ function ParticleBackground() {
       pointsRef.current.rotation.x -= delta / 10;
       pointsRef.current.rotation.y -= delta / 15;
     }
+    if (groupRef.current) {
+      // Subtle cursor-reactive parallax: the field gently tilts toward the pointer
+      const targetX = state.pointer.y * 0.15;
+      const targetY = state.pointer.x * 0.15;
+      groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.05;
+      groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.05;
+    }
   });
 
   return (
-    <group rotation={[0, 0, Math.PI / 4]}>
+    <group ref={groupRef} rotation={[0, 0, Math.PI / 4]}>
       <Points ref={pointsRef} positions={spherePositions} stride={3} frustumCulled={false}>
         <PointMaterial
           transparent
@@ -96,7 +104,6 @@ const Hero = () => {
                 Get In Touch
               </motion.a>
               <motion.a
-                //href="/Yaswanth_Kumar_Singampalli_DE.pdf"
                 href={`${process.env.PUBLIC_URL}/Yaswanth_Kumar_Singampalli_DE.pdf`}
                 download
                 className="flex items-center gap-2 text-slate-700 dark:text-slate-300 hover:text-primary transition-colors"
