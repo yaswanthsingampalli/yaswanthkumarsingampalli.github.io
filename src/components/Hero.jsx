@@ -31,7 +31,7 @@ function ParticleBackground() {
       <Points ref={pointsRef} positions={spherePositions} stride={3} frustumCulled={false}>
         <PointMaterial
           transparent
-          color="#2563eb" // Matches your primary color
+          color="#C1512D" // Matches new primary accent color
           size={0.005}
           sizeAttenuation={true}
           depthWrite={false}
@@ -62,9 +62,9 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="pt-24 pb-16 relative overflow-hidden">
+    <section id="home" className="pt-24 pb-16 relative overflow-hidden hero-bg">
       {/* 3D Canvas Background */}
-      <div className="absolute inset-0 z-0 h-[calc(100vh-64px)]"> {/* Ensure canvas has a defined height */}
+      <div className="absolute inset-0 z-0 h-[calc(100vh-64px)] opacity-60">
         <Canvas camera={{ position: [0, 0, 1] }}>
           <ParticleBackground />
         </Canvas>
@@ -77,7 +77,11 @@ const Hero = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            <span className="badge-pill mb-6">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              Available for work
+            </span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 tracking-tight">
               Hi, I'm <span className="text-primary typing-animation">{text}</span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-8">
@@ -89,7 +93,7 @@ const Hero = () => {
             <div className="flex flex-wrap gap-4">
               <motion.a
                 href="#projects"
-                className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                className="bg-primary text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity font-medium shadow-lg shadow-primary/20"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -97,7 +101,7 @@ const Hero = () => {
               </motion.a>
               <motion.a
                 href="#contact"
-                className="border-2 border-primary text-primary dark:text-white px-6 py-3 rounded-lg hover:bg-primary/10 transition-colors font-medium"
+                className="border-2 border-primary text-primary dark:text-white px-6 py-3 rounded-full hover:bg-primary/10 transition-colors font-medium"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -131,6 +135,24 @@ const Hero = () => {
               <div className="absolute -bottom-4 -right-4 bg-white dark:bg-slate-800 rounded-full p-4 shadow-lg">
                 <i className="fas fa-chart-line text-primary text-2xl"></i>
               </div>
+              <motion.div
+                className="absolute -top-6 -left-10 bg-white dark:bg-slate-800 rounded-2xl px-5 py-3 shadow-xl border border-black/5 dark:border-white/5 hidden sm:block"
+                initial={{ opacity: 0, y: -10 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.8 }}
+              >
+                <p className="text-2xl font-bold text-primary">4+</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Years Experience</p>
+              </motion.div>
+              <motion.div
+                className="absolute -bottom-8 -left-14 bg-white dark:bg-slate-800 rounded-2xl px-5 py-3 shadow-xl border border-black/5 dark:border-white/5 hidden sm:block"
+                initial={{ opacity: 0, y: 10 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 1 }}
+              >
+                <p className="text-2xl font-bold text-primary">7+</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Projects Delivered</p>
+              </motion.div>
             </div>
           </motion.div>
         </div>
