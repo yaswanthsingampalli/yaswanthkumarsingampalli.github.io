@@ -14,7 +14,7 @@ const ProjectCard = ({ project, index }) => {
   const glowX = useTransform(x, [0, 1], [0, 100]);
   const glowY = useTransform(y, [0, 1], [0, 100]);
   const glowBackground = useTransform([glowX, glowY], ([gx, gy]) =>
-    `radial-gradient(circle at ${gx}% ${gy}%, rgba(37,99,235,0.35), transparent 60%)`
+    `radial-gradient(circle at ${gx}% ${gy}%, rgba(193,81,45,0.35), transparent 60%)`
   );
 
   const handleMouseMove = (e) => {
@@ -56,7 +56,7 @@ const ProjectCard = ({ project, index }) => {
         <div className="p-6 relative" style={{ transform: 'translateZ(30px)' }}>
           <div className="flex justify-between items-start mb-3">
             <h3 className="text-xl font-bold">{project.title}</h3>
-            <span className={`bg-${project.tagColor}-100 dark:bg-${project.tagColor}-900/50 text-${project.tagColor}-800 dark:text-${project.tagColor}-200 text-xs px-2 py-1 rounded`}>
+            <span className={`bg-${project.tagColor}-100 dark:bg-${project.tagColor}-900/50 text-${project.tagColor}-800 dark:text-${project.tagColor}-200 text-xs px-2 py-1 rounded-full`}>
               {project.category}
             </span>
           </div>
@@ -65,7 +65,7 @@ const ProjectCard = ({ project, index }) => {
           </p>
           <div className="flex flex-wrap gap-2 mb-4">
             {project.tech.map((tech, i) => (
-              <span key={i} className="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs px-2 py-1 rounded">
+              <span key={i} className="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs px-2 py-1 rounded-full">
                 {tech}
               </span>
             ))}
@@ -143,7 +143,7 @@ const Projects = () => {
   const isInView = useInView(containerRef, { once: true });
 
   return (
-    <section id="projects" className="py-20 bg-slate-100 dark:bg-slate-800/50">
+    <section id="projects" className="py-20 bg-cream-dark/40 dark:bg-slate-800/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-16"
@@ -171,7 +171,7 @@ const Projects = () => {
         >
           <motion.a
             href="#"
-            className="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            className="inline-block bg-primary text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity font-medium"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
