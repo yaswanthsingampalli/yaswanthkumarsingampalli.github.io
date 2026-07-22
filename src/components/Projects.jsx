@@ -1,74 +1,106 @@
 // src/components/Projects.jsx
 import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 const ProjectCard = ({ project, index }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const x = useMotionValue(0.5);
+  const y = useMotionValue(0.5);
+
+  const rotateX = useSpring(useTransform(y, [0, 1], [10, -10]), { stiffness: 200, damping: 20 });
+  const rotateY = useSpring(useTransform(x, [0, 1], [-10, 10]), { stiffness: 200, damping: 20 });
+  const glowX = useTransform(x, [0, 1], [0, 100]);
+  const glowY = useTransform(y, [0, 1], [0, 100]);
+  const glowBackground = useTransform([glowX, glowY], ([gx, gy]) =>
+    `radial-gradient(circle at ${gx}% ${gy}%, rgba(37,99,235,0.35), transparent 60%)`
+  );
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set((e.clientX - rect.left) / rect.width);
+    y.set((e.clientY - rect.top) / rect.height);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0.5);
+    y.set(0.5);
+  };
+
   return (
     <motion.div
       ref={ref}
-      className="project-card"
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -10 }}
+      style={{ perspective: 1000 }}
     >
-      <div className={`h-48 bg-gradient-to-r ${project.gradient} flex items-center justify-center`}>
-        <i className={`fas ${project.icon} text-white text-5xl`}></i>
-      </div>
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="text-xl font-bold">{project.title}</h3>
-          <span className={`bg-${project.tagColor}-100 dark:bg-${project.tagColor}-900/50 text-${project.tagColor}-800 dark:text-${project.tagColor}-200 text-xs px-2 py-1 rounded`}>
-            {project.category}
-          </span>
-        </div>
-        <p className="text-slate-600 dark:text-slate-400 mb-4">
-          {project.description}
-        </p>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tech.map((tech, i) => (
-            <span key={i} className="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs px-2 py-1 rounded">
-              {tech}
-            </span>
-          ))}
-        </div>
-        <div className="flex justify-between">
-          {/* Use a button styled like a link for "View Case Study" if it's for future use */}
-          {/* <button className="text-primary hover:underline">View Case Study</button> */}
-          
-          {/* Or use a real link if you have a case study URL */}
-          <a
-            href={project.caseStudyUrl || "#"} // Replace with actual URL or remove if not applicable
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline"
-          >
-            View Case Study
-          </a>
+      <motion.div
+        className="project-card group relative"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+        whileHover={{ y: -10, scale: 1.02 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      >
+        <motion.div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ background: glowBackground }}
+        />
 
-          <div className="flex gap-3">
+        <div className={`h-48 bg-gradient-to-r ${project.gradient} flex items-center justify-center`}>
+          <i className={`fas ${project.icon} text-white text-5xl`}></i>
+        </div>
+        <div className="p-6 relative" style={{ transform: 'translateZ(30px)' }}>
+          <div className="flex justify-between items-start mb-3">
+            <h3 className="text-xl font-bold">{project.title}</h3>
+            <span className={`bg-${project.tagColor}-100 dark:bg-${project.tagColor}-900/50 text-${project.tagColor}-800 dark:text-${project.tagColor}-200 text-xs px-2 py-1 rounded`}>
+              {project.category}
+            </span>
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 mb-4">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.tech.map((tech, i) => (
+              <span key={i} className="bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs px-2 py-1 rounded">
+                {tech}
+              </span>
+            ))}
+          </div>
+          <div className="flex justify-between">
             <a
-              href={project.githubUrl || "#"} // Use the URL from the project object
+              href={project.caseStudyUrl || "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-500 hover:text-primary"
+              className="text-primary hover:underline"
             >
-              <i className="fab fa-github"></i>
+              View Case Study
             </a>
-            <a
-              href={project.demoUrl || "#"} // Replace with actual demo URL
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-500 hover:text-primary"
-            >
-              <i className="fas fa-external-link-alt"></i>
-            </a>
+
+            <div className="flex gap-3">
+              <a
+                href={project.githubUrl || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-500 hover:text-primary"
+              >
+                <i className="fab fa-github"></i>
+              </a>
+              <a
+                href={project.demoUrl || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-500 hover:text-primary"
+              >
+                <i className="fas fa-external-link-alt"></i>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
@@ -83,10 +115,7 @@ const Projects = () => {
       gradient: "from-blue-400 to-purple-500",
       icon: "fa-headphones",
       tagColor: "blue",
-      // Add actual URLs here when available
-      // caseStudyUrl: "https://...",
-      githubUrl: "https://github.com/yaswanthkumarsingampalli/Youtube_Rag_Application", // <-- Added GitHub URL
-      // demoUrl: "https://..."
+      githubUrl: "https://github.com/yaswanthkumarsingampalli/Youtube_Rag_Application",
     },
     {
       title: "Real-Time 3D Game Development",
@@ -96,10 +125,7 @@ const Projects = () => {
       gradient: "from-green-400 to-teal-500",
       icon: "fa-gamepad",
       tagColor: "green",
-      // Add actual URLs here when available
-      // caseStudyUrl: "https://...",
-      githubUrl: "https://github.com/yaswanthkumarsingampalli/GameUnity", // <-- Added GitHub URL
-      // demoUrl: "https://..."
+      githubUrl: "https://github.com/yaswanthkumarsingampalli/GameUnity",
     },
     {
       title: "AI-Powered YouTube Video Discovery Platform",
@@ -109,10 +135,7 @@ const Projects = () => {
       gradient: "from-amber-400 to-orange-500",
       icon: "fa-youtube",
       tagColor: "amber",
-      // Add actual URLs here when available
-      // caseStudyUrl: "https://...",
-      githubUrl: "https://github.com/yaswanthkumarsingampalli/Agents", // <-- Added GitHub URL
-      // demoUrl: "https://..."
+      githubUrl: "https://github.com/yaswanthkumarsingampalli/Agents",
     }
   ];
 
