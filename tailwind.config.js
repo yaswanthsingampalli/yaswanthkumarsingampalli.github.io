@@ -7,9 +7,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#2563eb',
-        secondary: '#0f172a',
-      }
+        primary: '#C1512D',
+        secondary: '#14140F',
+        cream: '#F6F3EC',
+        'cream-dark': '#ECE7DA',
+        ink: '#14140F',
+      },
+      fontFamily: {
+        display: ['"Plus Jakarta Sans"', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+      },
     },
   },
   plugins: [],
