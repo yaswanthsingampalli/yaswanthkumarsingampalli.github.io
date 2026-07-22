@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
+import ScrollProgress from './components/ScrollProgress';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
 import About from './components/About';
@@ -45,6 +46,7 @@ function App() {
 
   return (
     <div className="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen">
+      <ScrollProgress />
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <AnimatePresence mode="wait">
         <motion.div
