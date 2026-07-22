@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
+const icons = {
+  "Years Experience": "fa-solid fa-calendar-check",
+  "Cost Reduction": "fa-solid fa-sack-dollar",
+  "Reliability Improvement": "fa-solid fa-gauge-high",
+  "Projects Delivered": "fa-solid fa-diagram-project"
+};
+
 const StatCard = ({ end, label, delay }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -33,9 +40,12 @@ const StatCard = ({ end, label, delay }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay }}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.05, y: -4 }}
     >
-      <div className="text-4xl font-bold text-primary">
+      <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto mb-3">
+        <i className={icons[label]}></i>
+      </div>
+      <div className="text-4xl font-extrabold text-primary">
         {count}{label.includes('Years') || label.includes('Projects') ? '+' : '%'}
       </div>
       <p className="text-slate-600 dark:text-slate-300 mt-2">{label}</p>
@@ -52,7 +62,7 @@ const Stats = () => {
   ];
 
   return (
-    <section className="py-12 bg-white dark:bg-slate-800">
+    <section className="py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
