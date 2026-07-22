@@ -2,8 +2,8 @@
   "name": "portfolio-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://yaswanthkumarsingampalli.github.io/",
-  "dependencies": {
+    "homepage": "https://yaswanthsingampalli.github.io/yaswanthkumarsingampalli.github.io",
+    "dependencies": {
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
     "@testing-library/jest-dom": "^5.17.0",
