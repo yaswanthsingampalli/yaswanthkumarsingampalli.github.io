@@ -4,16 +4,16 @@
 @tailwind utilities;
 
 @layer base {
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     scroll-behavior: smooth;
   }
 }
 
 @layer components {
   .hero-bg {
-    @apply bg-gradient-to-br from-blue-100 to-purple-100 dark:from-slate-800 dark:to-indigo-900;
+    @apply bg-cream dark:bg-ink;
   }
   .skill-bar {
     @apply h-2 rounded-full overflow-hidden bg-slate-200 dark:bg-slate-700;
@@ -23,20 +23,23 @@
   }
   .timeline-item::before {
     content: '';
-    @apply absolute w-4 h-4 rounded-full bg-blue-500 -left-2 top-2 z-10;
+    @apply absolute w-4 h-4 rounded-full bg-primary -left-2 top-2 z-10;
   }
   .timeline-item::after {
     content: '';
     @apply absolute w-0.5 h-full bg-slate-300 dark:bg-slate-600 -left-0.5 top-6;
   }
   .project-card {
-    @apply bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300;
+    @apply bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg transition-all duration-300 border border-black/5 dark:border-white/5;
   }
   .typing-animation::after {
     content: '|';
     @apply animate-pulse;
   }
   .stats-card {
-    @apply bg-slate-50 dark:bg-slate-800/50 rounded-xl p-6 text-center;
+    @apply bg-white dark:bg-slate-800/50 rounded-2xl p-6 text-center shadow-md border border-black/5 dark:border-white/5;
+  }
+  .badge-pill {
+    @apply inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-800 px-4 py-1.5 text-sm font-medium shadow-md border border-black/5 dark:border-white/10;
   }
 }
